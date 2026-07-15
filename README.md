@@ -71,11 +71,11 @@ Cross-cutting concerns: pytest, logging, Git, Docker, and GitHub Actions
 | Programming | Python | Planned |
 | Data manipulation | Pandas | Planned |
 | Querying and transformation | SQL | Planned |
-| Database | PostgreSQL | Planned |
+| Database | PostgreSQL | Implemented locally |
 | Data sources | CSV and REST API | Planned |
 | Data modeling | Relational model and star schema | Planned |
 | Testing | pytest and data quality checks | Planned |
-| Containers | Docker and Docker Compose | Planned |
+| Containers | Docker and Docker Compose | Integrated locally |
 | Version control | Git and GitHub | In progress |
 | CI | GitHub Actions | Planned |
 | Visualization | Power BI | Planned |
@@ -194,6 +194,52 @@ deactivate
 ```
 
 The `.venv` directory and local `.env` files are not committed. The environment can be recreated from `requirements.txt`.
+
+### Start PostgreSQL with Docker Compose
+
+Create a local environment file from the committed template:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Replace the placeholder password in `.env`. Local `.env` files are ignored by Git and must not be committed.
+
+Start PostgreSQL:
+
+```powershell
+docker compose up -d
+```
+
+Check the service status:
+
+```powershell
+docker compose ps
+```
+
+Verify the database from inside the container:
+
+```powershell
+docker compose exec postgres psql -U ecommerce_user -d ecommerce -c "SELECT 1 AS connection_test;"
+```
+
+Verify the connection from Python:
+
+```powershell
+python scripts\check_postgres.py
+```
+
+Stop and remove the local containers while preserving the database volume:
+
+```powershell
+docker compose down
+```
+
+To intentionally remove the local database volume and reset all data:
+
+```powershell
+docker compose down -v
+```
 
 ## Data sources and licensing
 
