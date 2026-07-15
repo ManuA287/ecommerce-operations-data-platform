@@ -148,9 +148,52 @@ The first complete version is finished when:
 `-- README.md
 ```
 
-## Running the project
+## Local development setup
 
-The first executable version has not been implemented yet. Reproducible setup and run instructions will be added as soon as the ingestion and database components are available.
+The project uses a repository-local Python virtual environment to isolate its dependencies.
+
+**Tested with:** Python 3.11.4 on Windows using PowerShell
+
+### 1. Clone the repository
+
+```powershell
+git clone https://github.com/ManuA287/ecommerce-operations-data-platform.git
+cd ecommerce-operations-data-platform
+```
+
+### 2. Create a virtual environment
+
+```powershell
+py -m venv .venv
+```
+
+### 3. Activate the environment
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### 4. Install the dependencies
+
+```powershell
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+### 5. Verify the installation
+
+```powershell
+python -m pip check
+python -c "import pandas, requests, psycopg, dotenv, pytest; print('Environment OK')"
+```
+
+### Deactivate the environment
+
+```powershell
+deactivate
+```
+
+The `.venv` directory and local `.env` files are not committed. The environment can be recreated from `requirements.txt`.
 
 ## Data sources and licensing
 

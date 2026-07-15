@@ -216,3 +216,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific local files
+
+# Local editor settings
+.vscode/
+
+# Local environment files and secrets
+.env.*
+!.env.example
+
+# Downloaded source data and generated data
+data/raw/
+data/processed/
+
+# Local runtime output
+logs/
