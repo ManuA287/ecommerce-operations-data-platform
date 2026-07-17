@@ -72,7 +72,7 @@ Cross-cutting concerns: pytest, logging, Git, Docker, and GitHub Actions
 | Data manipulation | Pandas | Planned |
 | Querying and transformation | SQL | Planned |
 | Database | PostgreSQL | Implemented locally |
-| Data sources | CSV and REST API | Planned |
+| Data sources | Olist CSV dataset and planned REST API | Dataset selected |
 | Data modeling | Relational model and star schema | Planned |
 | Testing | pytest and data quality checks | Planned |
 | Containers | Docker and Docker Compose | Integrated locally |
@@ -118,7 +118,7 @@ The first complete version is finished when:
 - [x] Project context defined
 - [x] Target roles defined
 - [x] Initial roadmap defined
-- [ ] Public dataset selected and documented
+- [x] Public dataset selected and documented
 - [ ] Local PostgreSQL environment created
 - [ ] First source table loaded
 - [ ] First ten SQL queries completed
@@ -243,7 +243,21 @@ docker compose down -v
 
 ## Data sources and licensing
 
-The exact public dataset and API will be selected and documented in the next milestone. Source links, usage conditions, and any relevant licenses will be listed here before data files are added to the repository.
+### Olist Brazilian E-Commerce Public Dataset
+
+The primary source is the **Brazilian E-Commerce Public Dataset by Olist**, distributed through Kaggle.
+
+- **Provider:** Olist
+- **Source:** https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
+- **License:** Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+- **License reference:** https://creativecommons.org/licenses/by-nc-sa/4.0/
+- **Local raw-data path:** `data/raw/olist/`
+
+The original CSV files are not included in this repository. They must be downloaded from the official source and are stored locally in the Git-ignored `data/raw/olist/` directory.
+
+The initial pipeline uses the orders, order items, payments, customers, products, sellers, and product-category translation files. Reviews and detailed geolocation data are retained locally for possible later extensions.
+
+Further details are documented in [`data/README.md`](data/README.md).
 
 ## Author
 
