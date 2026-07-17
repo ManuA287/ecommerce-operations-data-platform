@@ -34,13 +34,158 @@ The project is designed to demonstrate practical skills in Python, SQL, PostgreS
 
 ## Business questions
 
-The first version of the platform will answer the following questions:
+The first version of the platform will answer five measurable business questions covering sales, orders, delivery performance, customer regions, and sellers.
 
-1. How do order volume and revenue develop over time?
-2. Which product categories, sellers, and regions contribute most to revenue?
-3. How high is the late-delivery rate, and where are delays concentrated?
-4. How does the average order value change by period and segment?
-5. Which data quality issues could make the analysis unreliable?
+### 1. Sales performance
+
+**How does monthly gross merchandise value develop over time, and what is the month-over-month growth rate?**
+
+Gross merchandise value, abbreviated as **GMV**, will be calculated as the sum of item prices for delivered orders. Freight costs are reported separately and are not included in GMV.
+
+**Primary metrics:**
+
+- Monthly GMV
+- Month-over-month GMV change
+- Month-over-month GMV growth rate
+- Freight value
+
+**Primary dimensions:**
+
+- Purchase month
+- Purchase year
+
+**Main source files:**
+
+- `olist_orders_dataset.csv`
+- `olist_order_items_dataset.csv`
+
+### 2. Order development
+
+**How does monthly order volume develop, and what proportion of orders are delivered, cancelled, or assigned another status?**
+
+Each order will be counted once using its unique `order_id`.
+
+**Primary metrics:**
+
+- Number of orders
+- Number of delivered orders
+- Number of cancelled orders
+- Delivery rate
+- Cancellation rate
+
+**Primary dimensions:**
+
+- Purchase month
+- Order status
+
+**Main source file:**
+
+- `olist_orders_dataset.csv`
+
+### 3. Delivery performance
+
+**What proportion of delivered orders arrive after their estimated delivery date, and how many days late are delayed orders on average?**
+
+An order will be classified as late when its actual delivery date is later than its estimated delivery date. Only delivered orders with both dates available will be included.
+
+**Primary metrics:**
+
+- Number of delivered orders
+- Number of late deliveries
+- Late-delivery rate
+- Average days late
+- Average delivery duration
+
+**Primary dimensions:**
+
+- Purchase month
+- Customer state
+
+**Main source files:**
+
+- `olist_orders_dataset.csv`
+- `olist_customers_dataset.csv`
+
+### 4. Regional performance
+
+**Which customer states generate the highest GMV, and how do their order volume and average order value differ?**
+
+The regional analysis will initially use the customer state. City-level and geolocation-based analyses may be added later.
+
+**Primary metrics:**
+
+- GMV
+- Number of delivered orders
+- Average order value
+- Share of total GMV
+
+**Primary dimensions:**
+
+- Customer state
+
+**Main source files:**
+
+- `olist_customers_dataset.csv`
+- `olist_orders_dataset.csv`
+- `olist_order_items_dataset.csv`
+
+### 5. Seller performance
+
+**Which sellers generate the highest GMV, and what proportion of total GMV is contributed by the ten highest-performing sellers?**
+
+Seller performance will initially focus on sales contribution. Delivery and customer-review metrics may be added in a later project phase.
+
+**Primary metrics:**
+
+- GMV per seller
+- Number of delivered orders per seller
+- Number of order items per seller
+- Share of total GMV
+- Cumulative GMV share of the top ten sellers
+
+**Primary dimensions:**
+
+- Seller
+- Seller state
+
+**Main source files:**
+
+- `olist_order_items_dataset.csv`
+- `olist_orders_dataset.csv`
+- `olist_sellers_dataset.csv`
+
+## Metric assumptions
+
+The following initial definitions will be used consistently across SQL queries and Power BI measures:
+
+- **GMV:** Sum of `price` from order items belonging to delivered orders.
+- **Freight value:** Sum of `freight_value`, reported separately from GMV.
+- **Order count:** Distinct count of `order_id`.
+- **Average order value:** GMV divided by the number of distinct delivered orders.
+- **Late delivery:** An order where `order_delivered_customer_date` is later than `order_estimated_delivery_date`.
+- **Days late:** Difference in days between the actual and estimated delivery dates for late orders.
+- **Customer region:** Initially represented by `customer_state`.
+- **Seller contribution:** Seller GMV divided by total GMV.
+
+These definitions may be refined after the initial data profiling, but any changes will be documented before analytical results are published.
+
+## Data quality objectives
+
+In addition to answering the business questions, the pipeline will verify whether the source data is sufficiently reliable for analysis.
+
+The initial data-quality checks will examine:
+
+- whether `order_id` is unique in the orders dataset,
+- whether required identifiers are missing,
+- whether order items reference existing orders,
+- whether products and sellers referenced by order items exist,
+- whether monetary values are negative or missing,
+- whether timestamps follow a logically valid sequence,
+- whether delivered orders contain the required delivery dates,
+- whether repeated pipeline runs create duplicate records, and
+- whether joins unexpectedly increase row counts.
+
+Data-quality results will be documented separately from business KPIs so that analytical findings and technical reliability remain clearly distinguishable.
 
 ## Planned architecture
 
