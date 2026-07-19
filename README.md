@@ -187,6 +187,32 @@ The initial data-quality checks will examine:
 
 Data-quality results will be documented separately from business KPIs so that analytical findings and technical reliability remain clearly distinguishable.
 
+## First source-table import
+
+The first imported source table is `raw.olist_orders`, based on the local `olist_orders_dataset.csv` file.
+
+The table uses one row per order and contains:
+
+- order and customer identifiers,
+- the current or final order status,
+- the purchase timestamp,
+- payment-approval and carrier timestamps,
+- the actual customer-delivery timestamp, and
+- the estimated delivery timestamp.
+
+Source identifiers and statuses are stored as text. Source timestamps are stored as PostgreSQL `timestamp without time zone` values because the CSV does not contain explicit timezone offsets.
+
+The import was validated by checking:
+
+- the source and database row counts,
+- the number of distinct `order_id` values,
+- the order-status distribution,
+- the available purchase-date range,
+- missing optional timestamps, and
+- potentially illogical delivery dates.
+
+The original CSV remains in the Git-ignored `data/raw/olist/` directory. Table creation and validation queries are versioned under `sql/raw/` and `sql/validation/`.
+
 ## Planned architecture
 
 ```text
@@ -264,8 +290,8 @@ The first complete version is finished when:
 - [x] Target roles defined
 - [x] Initial roadmap defined
 - [x] Public dataset selected and documented
-- [ ] Local PostgreSQL environment created
-- [ ] First source table loaded
+- [x] Local PostgreSQL environment created
+- [x] First source table loaded
 - [ ] First ten SQL queries completed
 - [ ] First REST API response saved
 
