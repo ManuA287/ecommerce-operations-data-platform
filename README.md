@@ -292,7 +292,7 @@ The first complete version is finished when:
 - [x] Public dataset selected and documented
 - [x] Local PostgreSQL environment created
 - [x] First source table loaded
-- [ ] First ten SQL queries completed
+- [x] First ten SQL queries completed
 - [ ] First REST API response saved
 
 ## Planned repository structure
